@@ -92,4 +92,4 @@ This project is licensed under the MIT License.
 
 ## Author
 
-Made by [HITESH SHARMA](https://github.com/HITESHSHARMA1175).
+Made by [HITESH SHARMA](https://github.com/HITESHSHARMA1175) (`@HITESHSHARMA1175`).
