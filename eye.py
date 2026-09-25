@@ -18,6 +18,9 @@ GAZE_THRESHOLD = 0.012
 ACTION_COOLDOWN = 0.8
 SCROLL_AMOUNT = 3
 CURSOR_SMOOTHING = 0.42
+# Keep mapped positions away from the screen corners, where PyAutoGUI's
+# fail-safe is intentionally triggered.
+SAFE_EDGE_MARGIN = 12
 # Camera-frame active region (normalized 0..1): left, right, top, bottom.
 # Iris movement inside this box maps across the full screen; outside it clamps
 # to the nearest edge. Adjust these bounds for your webcam framing.
@@ -54,10 +57,11 @@ def right_iris_position(landmarks):
 
 
 def map_active_region(value, region_min, region_max, screen_size):
-    """Map a normalized camera coordinate in an active region to screen pixels."""
+    """Map a camera coordinate to screen pixels, away from fail-safe corners."""
     fraction = (value - region_min) / (region_max - region_min)
     fraction = max(0.0, min(1.0, fraction))
-    return int(fraction * (screen_size - 1))
+    margin = min(SAFE_EDGE_MARGIN, max(0, (screen_size - 1) // 2))
+    return int(margin + fraction * (screen_size - 1 - 2 * margin))
 
 
 def main():
